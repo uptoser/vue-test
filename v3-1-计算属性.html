@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>计算属性</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    总价:{{prices}} <br>
+    <button v-on:click="chance">改变</button>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        package1: [{
+            name: 'iPhone 7',
+            price: 7199,
+            count: 2
+          },
+          {
+            name: 'iPad Air',
+            price: 2888,
+            count: 1
+          }
+        ],
+        package2: [{
+            name: 'Macbook',
+            price: 12888,
+            count: 5
+          },
+          {
+            name: 'iMac',
+            price: 7888,
+            count: 10
+          }
+        ]
+
+      },
+      //computed和methods实现的效果是相同的，text不改变计算属性就不会改变，
+      //但是methods则不同，只要重新渲染就会被调用。
+      computed: {
+        prices: function() {
+          var prices = 0;
+          for (var i = 0; i < this.package1.length; i++) {
+            prices += this.package1[i].price * this.package1[i].count;
+          }
+          for (var i = 0; i < this.package2.length; i++) {
+            prices += this.package2[i].price * this.package2[i].count;
+          }
+          return prices;
+        }
+      },
+      methods: {
+        init: function() {
+          console.log('初始化成功');
+        },
+        chance: function() {
+          this.package1[1].count++;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
