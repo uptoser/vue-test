@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>内置指令</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<style media="screen">
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <ul v-for="user in sorted">
+      <li v-for="(value, key, index) in user">
+        {{ index }}. {{ key }} : {{ value }}
+      </li>
+    </ul>
+    <button @click="push">追加</button>
+    <button @click="set0">修改小红</button>
+  </div>
+
+  <script>
+    var userList = [{
+        name: '小红',
+        age: 18
+      },
+      {
+        name: '小明',
+        age: 16
+      }
+    ];
+
+    new Vue({
+      el: '#app',
+      data: {
+        array: userList
+      },
+      computed: {
+        sorted: function() {
+          this.array.sort();
+          return this.array;
+        }
+      },
+      methods: {
+        // 当data的某个属性是一个数组时，用v-for可以遍历，但显然数组是可能变动的，因此对以下变动也进行数据绑定；
+        // push()         数组末尾添加
+        // pop()           数组末尾取出
+        // shift()          数组开头取出
+        // unshift()      数组开头添加
+        // splice()        删除并插入
+        // sort()           排序
+        // reverse()     数组顺序颠倒
+        // filter(),concat(),slice()
+        push: function() {
+          this.array.push({
+            name: '小刚',
+            age: 28
+          });
+        },
+        //修改第一条数据
+        set0: function() {
+          this.$set(this.array, 0, {
+            name: '小红新',
+            age: 19
+          });
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>内置指令</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<style media="screen">
+  [v-cloak]{
+    display:none;
+  }
+</style>
+
+<body>
+  <!-- v-cloak是一个解决初始化慢导致页面闪动的最佳实践 -->
+  <div id="app" v-cloak>
+    {{message}} <br>
+    <template v-if="status === 1">
+      <lable>用户名:</lable>
+      <input type="text" placeholder="输入用户名">
+    </template>
+    <template v-else-if="status === 2">
+      <lable>邮箱:</lable>
+      <input type="text" placeholder="输入邮箱">
+    </template>
+    <!-- 如果给input元素加上key后，就不会复用标签 -->
+    <button @click="chance">切换输入类型</button>
+    <!-- v-if更适合条件不经常改变的场景，因为他切换开销相对较大，而v-show适合频繁切换条件 -->
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message:'这是一个文本',
+        status:1
+      },
+      methods:{
+        chance:function(){
+          return this.status = this.status === 1?2:1;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
