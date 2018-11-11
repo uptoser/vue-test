@@ -10,14 +10,22 @@
   <div id="app">
     <!-- 使用大括号会自动将绑定的数据显示出来 -->
     {{name}}
-    <br>
-    {{time}}
+    <br> {{time | formatDate}}
+    <!--管道符后面是过滤器-->
+    <!-- 过滤器也可以串联，也可以接受数据参数，例如：
+    {{message | filterA | filterB}}
+    {{message | filterA('arg1','arg2')}} -->
   </div>
+  <div id='link'>
+    <span v-html="link"></span>
+    <span v-pre>{{hello，这里的内容是不会被编译的}}</span>
+  </div>
+
   <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
   <script>
     var myData = {
       name: '你的名字',
-      time:new Date()
+      time: new Date()
     }
     var app = new Vue({
       //el可以是HTMLElement，也可以是CSS选择器 如：document.getElementById('app')
@@ -26,17 +34,38 @@
       created: function() { //尚未挂载$el还不能用
         console.log(this.name + '...创建时');
       },
+      filters: {
+        formatDate: function(time) {
+          var date = new Date(time);
+          var year = date.getFullYear();
+          var month = date.getMonth() + 1;
+          var day = date.getDate();
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var seconds = date.getSeconds();
+          return year + '-' + month + '-' + day + ' ' +
+            hours + ':' + minutes + ':' + seconds;
+        }
+      },
       mounted: function() {
         // console.log(this.$el + '...挂载时');
-        var _this = this;//声明一个变量指向Vue实例this,保证作用域一致
-        this.timer = setInterval(function(){
-          _this.time = new Date();//修改时间
-        },1000)
+        var _this = this; //声明一个变量指向Vue实例this,保证作用域一致
+        this.timer = setInterval(function() {
+          _this.time = new Date(); //修改时间
+        }, 1000)
       },
-      beforeDestory:function(){
-        if(this.timer){
-          clearInterval(this.timer);//在Vue实例销毁前，清除我们的定时器
+      beforeDestory: function() {
+        if (this.timer) {
+          clearInterval(this.timer); //在Vue实例销毁前，清除我们的定时器
         }
+      }
+    })
+
+    new Vue({
+      el: '#link',
+      data: {
+        link: '<a href="#">这是一个链接</a>',
+        hello: '你好啊'
       }
     })
     console.log(app.name);

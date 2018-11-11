@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Vue 示例</title>
+</head>
+
+<body>
+  <div id="app">
+    <p v-if="show">这个只是普通的文本</p><br>
+    <a href="" v-bind:href="url">链接</a><br>
+    <img src="" alt="" v-bind:src="imgUrl"><br>
+    <input type="button" name="" v-bind:value="text" v-on:click="handleShow"/>
+  </div>
+
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        text:"显示",
+        show: false,
+        url: 'https://www.github.com',
+        imgUrl: 'http://t2.hddhhn.com/uploads/tu/201707/571/106st.png'
+      },
+      methods:{
+        init:function(){
+          console.log('初始化成功');
+        },
+        handleShow:function(){
+          this.show = true;
+          this.text = "隐藏";
+        }
+      }
+    })
+
+    app.init();//外部调用函数
+  </script>
+
+</body>
+
+</html>
