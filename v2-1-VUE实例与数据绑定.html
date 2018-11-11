@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Vue 示例</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 使用大括号会自动将绑定的数据显示出来 -->
+    {{name}}
+    <br>
+    {{time}}
+  </div>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+  <script>
+    var myData = {
+      name: '你的名字',
+      time:new Date()
+    }
+    var app = new Vue({
+      //el可以是HTMLElement，也可以是CSS选择器 如：document.getElementById('app')
+      el: '#app',
+      data: myData,
+      created: function() { //尚未挂载$el还不能用
+        console.log(this.name + '...创建时');
+      },
+      mounted: function() {
+        // console.log(this.$el + '...挂载时');
+        var _this = this;//声明一个变量指向Vue实例this,保证作用域一致
+        this.timer = setInterval(function(){
+          _this.time = new Date();//修改时间
+        },1000)
+      },
+      beforeDestory:function(){
+        if(this.timer){
+          clearInterval(this.timer);//在Vue实例销毁前，清除我们的定时器
+        }
+      }
+    })
+    console.log(app.name);
+    app.name = '我的名字';
+    console.log(myData.name);
+    myData.name = '我回来了';
+    console.log(app.name);
+  </script>
+</body>
+
+</html>
